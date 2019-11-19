@@ -27,7 +27,7 @@ class Stack {
         return this.array.length
     }
 
-    getArray(){
+    getStack(){
         return this.array
     }
 }
