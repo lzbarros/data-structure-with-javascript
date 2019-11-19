@@ -19,23 +19,6 @@ const btnUnshift = getElementById('btnUnshift')
 const btnPop = getElementById('btnPop')
 const btnShift = getElementById('btnShift')
 
-const clearResult = (element) => {
-    while(element.firstChild)
-        element.removeChild(element.firstChild)
-}
-
-const showResult = (arr = []) => {
-    let resultElement = document.getElementById('result')
-    let ul = document.createElement('ul')
-    resultElement.appendChild(ul)
-    for(x = 0; x < arr.length; x++){
-        let li = document.createElement('li')
-        li.innerHTML = arr[x]
-
-        ul.appendChild(li)
-    }
-}
-
 const loadJSFile = (source = '', callback) => {
     let scriptArr = document.body.getElementsByTagName('script')
     let addJSFile = true
@@ -56,7 +39,32 @@ const loadJSFile = (source = '', callback) => {
         callback()
 }
 
+const setResultTitle = (titleText) => {
+    let titleElement = document.getElementById('resultTitle')
+
+    titleElement.innerHTML = titleText
+}
+
+const clearResult = (element) => {
+    while(element.firstChild)
+        element.removeChild(element.firstChild)
+}
+
+const showResult = (arr = []) => {
+    let resultElement = document.getElementById('result')
+    let ul = document.createElement('ul')
+    resultElement.appendChild(ul)
+    for(x = 0; x < arr.length; x++){
+        let li = document.createElement('li')
+        li.innerHTML = arr[x]
+
+        ul.appendChild(li)
+    }
+}
+
 btnGettingElementThroughInteraction1.addEventListener('click', () => {
+    setResultTitle(btnGettingElementThroughInteraction1.textContent)
+
     clearResult(document.getElementById('result'))
 
     loadJSFile(GETTING_ELEMENT_THROUGH_INTERACTION_SRC, 
@@ -64,6 +72,8 @@ btnGettingElementThroughInteraction1.addEventListener('click', () => {
 })
 
 btnGettingElementThroughInteraction2.addEventListener('click', () => {
+    setResultTitle(btnGettingElementThroughInteraction2.textContent)
+
     clearResult(document.getElementById('result'))
 
     loadJSFile(GETTING_ELEMENT_THROUGH_INTERACTION_SRC, 
@@ -72,6 +82,8 @@ btnGettingElementThroughInteraction2.addEventListener('click', () => {
 
 btnOverwrite.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
+
+    setResultTitle(btnOverwrite.textContent)
 
     clearResult(document.getElementById('result'))
     showResult(array)
@@ -83,6 +95,8 @@ btnOverwrite.addEventListener('click', () => {
 btnPush.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
 
+    setResultTitle(btnPush.textContent)
+
     clearResult(document.getElementById('result'))
     showResult(array)
 
@@ -92,6 +106,8 @@ btnPush.addEventListener('click', () => {
 
 btnUnshift.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
+
+    setResultTitle(btnUnshift.textContent)
 
     clearResult(document.getElementById('result'))
     showResult(array)
@@ -103,6 +119,8 @@ btnUnshift.addEventListener('click', () => {
 btnPop.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
 
+    setResultTitle(btnPop.textContent)
+
     clearResult(document.getElementById('result'))
     showResult(array)
 
@@ -112,6 +130,8 @@ btnPop.addEventListener('click', () => {
 
 btnShift.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
+
+    setResultTitle(btnShift.textContent)
 
     clearResult(document.getElementById('result'))
     showResult(array)
@@ -123,6 +143,8 @@ btnShift.addEventListener('click', () => {
 btnInsertingElementSpecificPosition.addEventListener('click', () => {
     let array = [0,1,2,3,4,5,6,7,8,9]
 
+    setResultTitle(btnInsertingElementSpecificPosition.textContent)
+
     clearResult(document.getElementById('result'))
     showResult(array)
 
@@ -131,6 +153,8 @@ btnInsertingElementSpecificPosition.addEventListener('click', () => {
 })
 
 btnBiDimensional.addEventListener('click', () => {
+    setResultTitle(btnBiDimensional.textContent)
+
     clearResult(document.getElementById('result'))
 
     loadJSFile(BI_DIMENSIONAL, 
@@ -138,6 +162,8 @@ btnBiDimensional.addEventListener('click', () => {
 })
 
 btnTriDimensional.addEventListener('click', () => {
+    setResultTitle(btnTriDimensional.textContent)
+
     clearResult(document.getElementById('result'))
 
     loadJSFile(TRI_DIMENSIONAL, 
