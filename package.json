@@ -1,0 +1,24 @@
+{
+  "name": "data-structure-with-javascript",
+  "version": "1.0.0",
+  "description": "Some data structure studies using javascript to remember a few things :)",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-google": "^0.14.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lzbarros/data-structure-with-javascript.git"
+  },
+  "author": "Luiz Barros",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lzbarros/data-structure-with-javascript/issues"
+  },
+  "homepage": "https://github.com/lzbarros/data-structure-with-javascript#readme"
+}

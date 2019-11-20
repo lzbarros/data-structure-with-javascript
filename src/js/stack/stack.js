@@ -1,33 +1,69 @@
+/* eslint-disable no-unused-vars */
+/**
+ * Stack class
+ */
 class Stack {
-    constructor(array = []){
-        this.array = array
-    }
+  /**
+   * @function constructor
+   * @param  {type} array {description}
+   */
+  constructor(array = []) {
+    this.array = array;
+  }
 
-    push(element = 0){
-        return this.array.push(element)
-    }
+  /**
+   * @function push
+   * @param  {type} element {description}
+   * @return {type} {description}
+   */
+  push(element = 0) {
+    return this.array.push(element);
+  }
 
-    pop(){
-        return this.array.pop()
-    }
+  /**
+   * @function pop
+   * @return {type} {description}
+   */
+  pop() {
+    return this.array.pop();
+  }
 
-    peek(){
-        return this.array[this.size() - 1]
-    }
+  /**
+   * @function peek
+   * @return {type} {description}
+   */
+  peek() {
+    return this.array[this.size() - 1];
+  }
 
-    isEmpty(){
-        return this.array.length === 0
-    }
+  /**
+   * @function isEmpty
+   * @return {type} {description}
+   */
+  isEmpty() {
+    return this.array.length === 0;
+  }
 
-    clear(){
-        this.array = []
-    }
+  /**
+   * @function clear
+   */
+  clear() {
+    this.array = [];
+  }
 
-    size(){
-        return this.array.length
-    }
+  /**
+   * @function size
+   * @return {type} {description}
+   */
+  size() {
+    return this.array.length;
+  }
 
-    getStack(){
-        return this.array
-    }
+  /**
+   * @function getStack
+   * @return {type} {description}
+   */
+  getStack() {
+    return this.array;
+  }
 }
