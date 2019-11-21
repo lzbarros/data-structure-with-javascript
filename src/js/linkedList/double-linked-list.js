@@ -1,23 +1,24 @@
 /* eslint-disable no-unused-vars */
 
 /**
- * LinkedList class
+ * DoubleLinkedList class
  */
-class LinkedList {
+class DoubleLinkedList {
   /**
-   *Creates an instance of LinkedList.
-   * @memberof LinkedList
+   *Creates an instance of DoubleLinkedList.
+   * @memberof DoubleLinkedList
    */
   constructor() {
     this.length = 0;
     this.head = null;
+    this.tail = null;
   }
 
   /**
    *
    *
    * @return {int}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   getLength() {
     return this.length;
@@ -27,7 +28,7 @@ class LinkedList {
    *
    *
    * @param {*} length
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   setLength(length) {
     this.length = length;
@@ -37,7 +38,7 @@ class LinkedList {
    *
    *
    * @return {Object}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   getHead() {
     return this.head;
@@ -47,7 +48,7 @@ class LinkedList {
    *
    *
    * @param {*} head
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   setHead(head) {
     this.head = head;
@@ -56,9 +57,29 @@ class LinkedList {
   /**
    *
    *
+   * @return {Object}
+   * @memberof DoubleLinkedList
+   */
+  getTail() {
+    return this.tail;
+  }
+
+  /**
+   *
+   *
+   * @param {*} tail
+   * @memberof DoubleLinkedList
+   */
+  setTail(tail) {
+    this.tail = tail;
+  }
+
+  /**
+   *
+   *
    * @param {*} element
    * @return {object}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   buildNode(element) {
     this.element = element;
@@ -70,7 +91,7 @@ class LinkedList {
 
   /**
    * @param {*} element
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   append(element) {
     const node = this.buildNode(element);
@@ -78,6 +99,7 @@ class LinkedList {
 
     if (!this.getHead()) {
       this.setHead(node);
+      this.setTail(node);
     } else {
       current = this.getHead();
 
@@ -86,6 +108,8 @@ class LinkedList {
       }
 
       current.next = node;
+      node.previous = current;
+      this.setTail(node);
     }
 
     this.setLength(this.getLength() + 1);
@@ -94,7 +118,7 @@ class LinkedList {
   /**
    * @param {*} element
    * @param {*} position
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   insert(element, position) {
     let current = this.getHead();
@@ -104,7 +128,11 @@ class LinkedList {
 
     if (position == 0) {
       node.next = current;
+      current.previous = node;
       this.setHead(node);
+      if (this.getLength() === 1) {
+        this.setTail(node);
+      }
       this.setLength(this.getLength() + 1);
       return;
     }
@@ -112,7 +140,9 @@ class LinkedList {
     while (current) {
       if (length == position) {
         node.next = previous.next;
+        node.previous = previous;
         previous.next = node;
+        current.previous = node;
         break;
       }
       previous = current;
@@ -123,6 +153,8 @@ class LinkedList {
 
     if (!current) {
       previous.next = node;
+      node.previous = previous;
+      this.setTail(node);
     }
 
     this.setLength(this.getLength() + 1);
@@ -130,11 +162,13 @@ class LinkedList {
 
   /**
    * @return {Object}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   removeFirst() {
     const current = this.getHead();
-    this.setHead(current.next);
+    const newHead = current.next;
+    newHead.previous = null;
+    this.setHead(newHead);
     this.setLength(this.getLength() - 1);
 
     return current;
@@ -142,38 +176,23 @@ class LinkedList {
 
   /**
    * @return {Object}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   removeLast() {
-    let current = this.getHead();
-    let previous;
-    let elementRemoved;
+    const current = this.getTail();
+    const newTail = current.previous;
+    newTail.next = null;
 
-    if (!current.next) {
-      this.setHead(null);
-      this.setLength(this.getLength() - 1);
-      return current;
-    }
-
-    while (current) {
-      if (!current.next) {
-        elementRemoved = previous.next;
-        previous.next = null;
-        break;
-      }
-      previous = current;
-      current = current.next;
-    }
-
+    this.setTail(newTail);
     this.setLength(this.getLength() - 1);
 
-    return elementRemoved;
+    return current;
   }
 
   /**
    * @param {*} position
    * @return {Object}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   removeByPosition(position) {
     let current = this.getHead();
@@ -187,10 +206,15 @@ class LinkedList {
       current = null;
     }
 
+    if (position + 1 === this.getLength()) {
+      return this.removeLast();
+    }
+
     while (current) {
       if (length == position) {
         elementRemoved = previous.next;
         previous.next = current.next;
+        previous.next.previous = current.previous;
         break;
       }
 
@@ -242,7 +266,7 @@ class LinkedList {
 
   /**
    * @return {string}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   toString() {
     let current = this.getHead();
@@ -260,7 +284,7 @@ class LinkedList {
 
   /**
    * @return {boolean}
-   * @memberof LinkedList
+   * @memberof DoubleLinkedList
    */
   isEmpty() {
     return this.getHead() === null;

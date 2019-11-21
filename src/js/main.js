@@ -4,8 +4,26 @@ const STACK = 'src/js/stack/stack.js';
 const STACK_DECIMAL_TO_BINARY = 'src/js/stack/decimal-to-binary.js';
 const STACK_BASE_CONVERTER = 'src/js/stack/base-converter.js';
 const QUEUE = 'src/js/queue/queue.js';
-const LINKED_LIST = 'src/js/linkedList/linked-list.js';
-
+const getLinkedListSource = {
+  LINKED_LIST: {
+    source: 'src/js/linkedList/linked-list.js',
+    getInstance: () => new LinkedList(),
+    setLinkedList: (linkedList) =>
+      this.linkedList = linkedList,
+    getLinkedList: () => {
+      return this.linkedList;
+    },
+  },
+  DOUBLE_LINKED_LIST: {
+    source: 'src/js/linkedList/double-linked-list.js',
+    getInstance: () => new DoubleLinkedList(),
+    setLinkedList: (doubleLinkedList) =>
+      this.doubleLinkedList = doubleLinkedList,
+    getLinkedList: () => {
+      return this.doubleLinkedList;
+    },
+  },
+};
 const getElementById = (elementId) => document.getElementById(elementId);
 
 const btnBiDimensional = getElementById('btnBiDimensional');
@@ -85,6 +103,27 @@ const showResult = (arr = []) => {
   }
 };
 
+const showResultUsingButton = (arr = []) => {
+  const resultElement = getElementById('result');
+  const ul = document.createElement('ul');
+  resultElement.appendChild(ul);
+  for (let x = 0; x < arr.length; x++) {
+    const li = document.createElement('li');
+    const btnShowIndexOf = document.createElement('button');
+    btnShowIndexOf.setAttribute('id', `btnShowIndexOf${x}`);
+    btnShowIndexOf.onclick = () => showLinkedListIndexOf(this);
+    btnShowIndexOf.textContent = arr[x];
+    const btnRemoveByPosition = document.createElement('button');
+    btnRemoveByPosition.setAttribute('id', `btnRemoveByPosition${x}`);
+    btnRemoveByPosition.onclick = () => removeLinkedListByPosition(arr[x]);
+    btnRemoveByPosition.textContent = 'x';
+
+    li.appendChild(btnShowIndexOf);
+    li.appendChild(btnRemoveByPosition);
+    ul.appendChild(li);
+  }
+};
+
 const setDefaultButtonConfig = (elementText) => {
   setResultTitle(elementText);
 
@@ -116,11 +155,11 @@ const setPotatoGameQueue = (potatoGameQueue) => {
 };
 
 const setLinkedList = (linkedList) => {
-  this.linkedList = linkedList;
+  getLinkedListSource[getSelectedLinkedList()].setLinkedList(linkedList);
 };
 
 const getLinkedList = () => {
-  return this.linkedList;
+  return getLinkedListSource[getSelectedLinkedList()].getLinkedList();
 };
 
 const isStackEmpty = () => {
@@ -154,7 +193,9 @@ const isLinkedListEmpty = () => {
   if (getLinkedList() && !getLinkedList().isEmpty()) {
     return false;
   } else {
-    alert('Linked List is empty. Please press Set Elements button!');
+    const selectElement = document.getElementById('linkedListSelect');
+    const label = selectElement[selectElement.selectedIndex].label;
+    alert(`${label} is empty. Please press Set Elements button!`);
     return true;
   }
 };
@@ -184,21 +225,52 @@ const getInputFromUser = (textMessage, initialValue) => {
   return users;
 };
 
-btnBiDimensional.addEventListener('click', () => {
+const showLinkedListIndexOf = (element) => {
+  const elementText = element.document.activeElement.textContent;
+  /* Position plus 1 to user`s view */
+  const position = getLinkedList().indexOf(elementText.replace(/ /g, '')) + 1;
+  const text = `Index of '${elementText}' is ` +
+    `${position}`;
+
+  alert(text);
+};
+
+const removeLinkedListByPosition = (elementText) => {
+  const elementTextWithReplace = elementText.replace(/ /g, '');
+  const position = getLinkedList().indexOf(elementTextWithReplace);
+  getLinkedList().removeByPosition(position);
+  const text = `${elementTextWithReplace} has been removed!`;
+
+  alert(text);
+
+  const result = getLinkedList().toString();
+
+  const resultArr = result ? result.split(',') : result;
+
+  clearResult(getElementById('result'));
+
+  showResultUsingButton(resultArr);
+};
+
+const getSelectedLinkedList = () => {
+  return document.getElementById('linkedListSelect').value;
+};
+
+btnBiDimensional.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   loadJSFile(BI_DIMENSIONAL,
       () => showResult(biDimensional()));
-});
+};
 
-btnTriDimensional.addEventListener('click', () => {
+btnTriDimensional.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   loadJSFile(TRI_DIMENSIONAL,
       () => showResult(triDimensional()));
-});
+};
 
-btnSetStack.addEventListener('click', () => {
+btnSetStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   loadJSFile(STACK, () => {
@@ -211,34 +283,34 @@ btnSetStack.addEventListener('click', () => {
 
     showResult(stack.getStack());
   });
-});
+};
 
-btnPopStack.addEventListener('click', () => {
+btnPopStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
     getStack().getStack().pop();
     showResult(getStack().getStack());
   }
-});
+};
 
-btnPeekStack.addEventListener('click', () => {
+btnPeekStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
     showResult([getStack().peek()]);
   }
-});
+};
 
-btnSizeStack.addEventListener('click', () => {
+btnSizeStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
     showResult([getStack().size()]);
   }
-});
+};
 
-btnEmptyStack.addEventListener('click', () => {
+btnEmptyStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
@@ -246,25 +318,25 @@ btnEmptyStack.addEventListener('click', () => {
   } else {
     showResult(['Yes']);
   }
-});
+};
 
-btnShowStack.addEventListener('click', () => {
+btnShowStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
     showResult(getStack().getStack());
   }
-});
+};
 
-btnClearStack.addEventListener('click', () => {
+btnClearStack.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isStackEmpty()) {
     getStack().clear();
   }
-});
+};
 
-btnDecimalToBinary.addEventListener('click', () => {
+btnDecimalToBinary.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const decimalNumber = window.prompt('Enter decimal number: ', 0);
@@ -273,9 +345,9 @@ btnDecimalToBinary.addEventListener('click', () => {
     loadJSFile(STACK_DECIMAL_TO_BINARY,
         () => showResult([decimalToBinary(decimalNumber)]));
   }
-});
+};
 
-btnBaseConverter.addEventListener('click', () => {
+btnBaseConverter.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const decimalNumber = window.prompt('Enter decimal number: ', 0);
@@ -285,9 +357,9 @@ btnBaseConverter.addEventListener('click', () => {
     loadJSFile(STACK_BASE_CONVERTER,
         () => showResult([baseConverter(decimalNumber, baseNumber)]));
   }
-});
+};
 
-btnPriorityEnqueue.addEventListener('click', () => {
+btnPriorityEnqueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser('Enter names separated by \',\' (comma) ', '');
@@ -310,9 +382,9 @@ btnPriorityEnqueue.addEventListener('click', () => {
       showResult(queue.getQueue());
     });
   }
-});
+};
 
-btnEnqueue.addEventListener('click', () => {
+btnEnqueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser('Enter names separated by \',\' (comma) ', '');
@@ -334,9 +406,9 @@ btnEnqueue.addEventListener('click', () => {
       showResult(queue.getQueue());
     });
   }
-});
+};
 
-btnDequeue.addEventListener('click', () => {
+btnDequeue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isQueueEmpty()) {
@@ -344,17 +416,17 @@ btnDequeue.addEventListener('click', () => {
     alert(`Element '${element}' has been removed!` );
     showResult(getQueue().getQueue());
   }
-});
+};
 
-btnSizeQueue.addEventListener('click', () => {
+btnSizeQueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isQueueEmpty()) {
     showResult([getQueue().size()]);
   }
-});
+};
 
-btnEmptyQueue.addEventListener('click', () => {
+btnEmptyQueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isQueueEmpty()) {
@@ -362,26 +434,26 @@ btnEmptyQueue.addEventListener('click', () => {
   } else {
     showResult(['Yes']);
   }
-});
+};
 
-btnShowQueue.addEventListener('click', () => {
+btnShowQueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isQueueEmpty()) {
     showResult(getQueue().getQueue());
   }
-});
+};
 
-btnClearQueue.addEventListener('click', () => {
+btnClearQueue.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isQueueEmpty()) {
     getQueue().clear();
     alert('Queue has been cleared!');
   }
-});
+};
 
-btnSetHotPotatoPlayer.addEventListener('click', () => {
+btnSetHotPotatoPlayer.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
@@ -403,34 +475,34 @@ btnSetHotPotatoPlayer.addEventListener('click', () => {
       showResult(potatoGameQueue.getQueue());
     });
   }
-});
+};
 
-btnShowHotPotatoPlayer.addEventListener('click', () => {
+btnShowHotPotatoPlayer.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isPotatoGameQueueEmpty()) {
     showResult(getPotatoGameQueue().getQueue());
   }
-});
+};
 
-btnStartHotPotatoGame.addEventListener('click', () => {
+btnStartHotPotatoGame.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const winner = hotPotatoGame();
 
   showResult([`The winner is ${winner}`], false);
-});
+};
 
-btnClearHotPotatoGame.addEventListener('click', () => {
+btnClearHotPotatoGame.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isPotatoGameQueueEmpty()) {
     getPotatoGameQueue().clear();
     alert('Hot Potato Game has been cleared!');
   }
-});
+};
 
-btnShowLinkedList.addEventListener('click', () => {
+btnShowLinkedList.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isLinkedListEmpty()) {
@@ -438,98 +510,111 @@ btnShowLinkedList.addEventListener('click', () => {
 
     const resultArr = result ? result.split(',') : result;
 
-    showResult(resultArr);
+    showResultUsingButton(resultArr);
   }
-});
+};
 
-btnSetLinkedList.addEventListener('click', () => {
+btnSetLinkedList.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
 
   if (users.length > 0) {
-    loadJSFile(LINKED_LIST, () => {
+    const linkedListSource = getLinkedListSource[getSelectedLinkedList()];
+    loadJSFile(linkedListSource.source, () => {
       let linkedlist = {};
       if (!getLinkedList()) {
-        linkedlist = new LinkedList();
+        linkedlist = linkedListSource.getInstance();
         setLinkedList(linkedlist);
       } else {
         linkedlist = getLinkedList();
       }
 
       for (let x = 0; x < users.length; x++) {
-        linkedlist.append(users[x]);
+        linkedlist.append(users[x].replace(/ /g, ''));
       }
 
       const result = linkedlist.toString();
 
       const resultArr = result ? result.split(',') : result;
 
-      showResult(resultArr);
+      showResultUsingButton(resultArr);
     });
   }
-});
+};
 
-btnSetLinkedListSpecPos.addEventListener('click', () => {
+btnSetLinkedListSpecPos.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
-  const users = getInputFromUser(`Enter names separated by \',\' (comma)`, '');
-  const position = window.prompt('Enter position', 0);
+  if (isLinkedListEmpty()) {
+    return;
+  }
 
-  if (position < 0) {
-    alert('Please type a number greather than \'-1\'');
+  const length = getLinkedList().getLength();
+  const users = getInputFromUser(`Enter names separated by \',\' (comma)`, '');
+  const position = window.prompt(`Enter position (Last position is ` +
+      `${length})`, 1);
+
+  if (position < 1 || position > (length + 1)) {
+    alert(`Please type a number between 1 and ${length + 1}`);
     return;
   }
 
   if (users.length > 0) {
-    loadJSFile(LINKED_LIST, () => {
+    const linkedListSource = getLinkedListSource[getSelectedLinkedList()];
+    loadJSFile(linkedListSource.source, () => {
       let linkedlist = {};
       if (!getLinkedList()) {
-        linkedlist = new LinkedList();
+        linkedlist = linkedListSource.getInstance();
         setLinkedList(linkedlist);
       } else {
         linkedlist = getLinkedList();
       }
 
       for (let x = users.length -1; x >= 0; x--) {
-        linkedlist.insert(users[x], position);
+        linkedlist.insert(users[x].replace(/ /g, ''), position - 1);
       }
 
       const result = linkedlist.toString();
 
       const resultArr = result ? result.split(',') : result;
 
-      showResult(resultArr);
+      showResultUsingButton(resultArr);
     });
   };
-});
+};
 
-btnRemoveLinkedListSpecPos.addEventListener('click', () => {
+btnRemoveLinkedListSpecPos.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isLinkedListEmpty()) {
-    const position = window.prompt('Enter position', 0);
+    const length = getLinkedList().getLength();
+    const position = window.prompt(`Enter position (Last position is ` +
+      `${length})`, 1);
 
-    if (position < 0) {
-      alert(`Please type a number greather than '-1'`);
+    if (position < 1 || position > length) {
+      alert(`Please type a number between 1 and ${length}`);
     } else {
-      showResult([getLinkedList().removeByPosition(position).element]);
+      showResult([`${getLinkedList().removeByPosition(position - 1).element} 
+        has been removed`]);
     }
   }
-});
+};
 
-btnRemoveFirstLinkedList.addEventListener('click', () => {
+btnRemoveFirstLinkedList.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isLinkedListEmpty()) {
-    showResult([getLinkedList().removeFirst().element]);
+    showResult([`${getLinkedList().removeFirst().element} 
+      has been removed!`]);
   }
-});
+};
 
-btnRemoveLastLinkedList.addEventListener('click', () => {
+btnRemoveLastLinkedList.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (!isLinkedListEmpty()) {
-    showResult([getLinkedList().removeLast().element]);
+    showResult([`${getLinkedList().removeLast().element} 
+      has been removed!`]);
   }
-});
+};
