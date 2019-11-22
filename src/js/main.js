@@ -116,7 +116,10 @@ const showResultUsingButton = (arr = []) => {
     const btnRemoveByPosition = document.createElement('button');
     btnRemoveByPosition.setAttribute('id', `btnRemoveByPosition${x}`);
     btnRemoveByPosition.onclick = () => removeLinkedListByPosition(arr[x]);
-    btnRemoveByPosition.textContent = 'x';
+    btnRemoveByPosition.style.backgroundColor = 'red';
+    btnRemoveByPosition.style.color = 'white';
+    btnRemoveByPosition.style.fontWeight = 'bold';
+    btnRemoveByPosition.textContent = 'X';
 
     li.appendChild(btnShowIndexOf);
     li.appendChild(btnRemoveByPosition);

@@ -82,11 +82,8 @@ class DoubleLinkedList {
    * @memberof DoubleLinkedList
    */
   buildNode(element) {
-    this.element = element;
-    this.next = null;
-    this.previous = null;
-    return {'element': this.element,
-      'next': this.next, 'previous': this.previous};
+    return {'element': element,
+      'next': null, 'previous': null};
   }
 
   /**
@@ -186,6 +183,10 @@ class DoubleLinkedList {
     this.setTail(newTail);
     this.setLength(this.getLength() - 1);
 
+    if (this.getLength() === 0) {
+      this.setTail(null);
+    }
+
     return current;
   }
 
@@ -197,11 +198,14 @@ class DoubleLinkedList {
   removeByPosition(position) {
     let current = this.getHead();
     let previous;
-    let length = 0;
+    let index = 0;
     let elementRemoved;
 
     if (position == 0) {
       elementRemoved = current;
+      if (current.next) {
+        current.next.previous = null;
+      }
       this.setHead(current.next);
       current = null;
     }
@@ -211,7 +215,7 @@ class DoubleLinkedList {
     }
 
     while (current) {
-      if (length == position) {
+      if (index == position) {
         elementRemoved = previous.next;
         previous.next = current.next;
         previous.next.previous = current.previous;
@@ -221,7 +225,7 @@ class DoubleLinkedList {
       previous = current;
       current = current.next;
 
-      length++;
+      index++;
     }
 
     this.setLength(this.getLength() - 1);
