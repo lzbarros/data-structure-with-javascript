@@ -4,6 +4,7 @@ const STACK = 'src/js/stack/stack.js';
 const STACK_DECIMAL_TO_BINARY = 'src/js/stack/decimal-to-binary.js';
 const STACK_BASE_CONVERTER = 'src/js/stack/base-converter.js';
 const QUEUE = 'src/js/queue/queue.js';
+const SET = 'src/js/set/set.js';
 const getLinkedListSource = {
   LINKED_LIST: {
     source: 'src/js/linkedList/linked-list.js',
@@ -57,6 +58,16 @@ const btnSetLinkedList = getElementById('btnSetLinkedList');
 const btnSetLinkedListSpecPos = getElementById('btnSetLinkedListSpecPos');
 const btnRemoveLinkedListSpecPos = getElementById('btnRemoveLinkedListSpecPos');
 const btnRemoveFirstLinkedList = getElementById('btnRemoveFirstLinkedList');
+
+const btnFillFirstSet = getElementById('btnFillFirstSet');
+const btnFillSecondSet = getElementById('btnFillSecondSet');
+const btnShowSets = getElementById('btnShowSets');
+const btnUnionSet = getElementById('btnUnionSet');
+const btnIntersectionSet = getElementById('btnIntersectionSet');
+const btnDifferenceSet = getElementById('btnDifferenceSet');
+const btnSubSet = getElementById('btnSubSet');
+const btnClearFirstSet = getElementById('btnClearFirstSet');
+const btnClearSecondSet = getElementById('btnClearSecondSet');
 
 const loadJSFile = (source = '', callback) => {
   const scriptArr = document.body.getElementsByTagName('script');
@@ -133,6 +144,10 @@ const setDefaultButtonConfig = (elementText) => {
   clearResult(getElementById('result'));
 };
 
+const passObjectWithoutReference = (object) => {
+  return JSON.parse(JSON.stringify(object));
+};
+
 const setStack = (stack) => {
   this.stack = stack;
 };
@@ -159,6 +174,14 @@ const setPotatoGameQueue = (potatoGameQueue) => {
 
 const setLinkedList = (linkedList) => {
   getLinkedListSource[getSelectedLinkedList()].setLinkedList(linkedList);
+};
+
+const getSetElement = () => {
+  return this.setElement;
+};
+
+const setSetElement = (setElement) => {
+  return this.setElement = setElement;
 };
 
 const getLinkedList = () => {
@@ -620,4 +643,125 @@ btnRemoveLastLinkedList.onclick = () => {
     showResult([`${getLinkedList().removeLast().element} 
       has been removed!`]);
   }
+};
+
+btnFillFirstSet.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
+
+  loadJSFile(SET, () => {
+    let setElement = getSetElement();
+
+    if (!setElement) {
+      setElement = {firstSet: {}, secondSet: {}};
+    }
+
+    for (u of users) {
+      const user = u.replace(/ /g, '');
+      setElement.firstSet[user] = user;
+    }
+
+    setSetElement(setElement);
+
+    showResult(Object.keys(setElement.firstSet));
+  });
+};
+
+btnFillSecondSet.onclick = () => {
+  setResultTitle(this.document.activeElement.textContent);
+
+  const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
+
+  loadJSFile(SET, () => {
+    let setElement = getSetElement();
+
+    if (!setElement) {
+      setElement = {firstSet: {}, secondSet: {}};
+    }
+
+    for (u of users) {
+      const user = u.replace(/ /g, '');
+      setElement.secondSet[user] = user;
+    }
+
+    setSetElement(setElement);
+
+    showResult(Object.keys(setElement.secondSet));
+  });
+};
+
+btnShowSets.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  showResult(Object.keys(getSetElement().firstSet));
+  showResult(Object.keys(getSetElement().secondSet));
+};
+
+btnUnionSet.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  const set = new Set();
+  const firstSet = passObjectWithoutReference(getSetElement().firstSet);
+  const secondSet = passObjectWithoutReference(getSetElement().secondSet);
+
+  const union = set.union(firstSet, secondSet);
+
+  showResult(union);
+};
+
+btnIntersectionSet.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  const set = new Set();
+  const firstSet = passObjectWithoutReference(getSetElement().firstSet);
+  const secondSet = passObjectWithoutReference(getSetElement().secondSet);
+
+  const intersection = set.intersection(firstSet, secondSet);
+
+  showResult(intersection);
+};
+
+btnDifferenceSet.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  const set = new Set();
+  const firstSet = passObjectWithoutReference(getSetElement().firstSet);
+  const secondSet = passObjectWithoutReference(getSetElement().secondSet);
+
+  const difference = set.difference(firstSet, secondSet);
+
+  showResult(difference);
+};
+
+btnSubSet.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  const set = new Set();
+  const firstSet = passObjectWithoutReference(getSetElement().firstSet);
+  const secondSet = passObjectWithoutReference(getSetElement().secondSet);
+
+  const subset = set.subset(firstSet, secondSet);
+
+  showResult(subset);
+};
+
+btnClearFirstSet.onclick = () => {
+  const set = getSetElement();
+
+  set.firstSet = {};
+
+  setSetElement(set);
+
+  alert(`First set has been cleared!`);
+};
+
+btnClearSecondSet.onclick = () => {
+  const set = getSetElement();
+
+  set.secondSet = {};
+
+  setSetElement(set);
+
+  alert(`Second set has been cleared!`);
 };
