@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const gettingElementThroughInteraction1 = () => {
   // #1
   const daysOfWeek =

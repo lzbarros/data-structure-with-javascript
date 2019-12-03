@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const overwriteElement = (array = []) => {
   array[array.length] = 10;
   array[array.length] = 11;

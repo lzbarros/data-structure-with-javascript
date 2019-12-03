@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const decimalToBinary = (decimalNumber = 0) => {
   const stackNumber = []; let rest; let binaryString = '';
 
@@ -12,5 +13,4 @@ const decimalToBinary = (decimalNumber = 0) => {
   }
 
   return binaryString;
-}
-;
+};

@@ -211,9 +211,9 @@ class LinkedList {
    * @return {type} {description}
    */
   removeByElement(element) {
-    const indexOf = indexOf(element);
+    const indexOf = this.indexOf(element);
     if (indexOf > -1) {
-      return removeByPosition(indexOf);
+      return this.removeByPosition(indexOf);
     } else {
       return -1;
     }
