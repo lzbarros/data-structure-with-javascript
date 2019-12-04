@@ -1,5 +1,55 @@
 /* eslint-disable no-unused-vars */
 
+const setStack = (stack) => {
+  this.stack = stack;
+};
+
+const getStack = () => {
+  return this.stack;
+};
+
+const getQueue = () => {
+  return this.queue;
+};
+
+const setQueue = (queue) => {
+  this.queue = queue;
+};
+
+const getPotatoGameQueue = () => {
+  return this.potatoGameQueue;
+};
+
+const setPotatoGameQueue = (potatoGameQueue) => {
+  this.potatoGameQueue = potatoGameQueue;
+};
+
+const setLinkedList = (linkedList) => {
+  getSources().getLinkedListSource[
+      getSelectedLinkedList()].setLinkedList(linkedList);
+};
+
+const getSetElement = () => {
+  return this.setElement;
+};
+
+const setSetElement = (setElement) => {
+  return this.setElement = setElement;
+};
+
+const getHashTable = () => {
+  return this.hashTable;
+};
+
+const setHashTable = (hashTable) => {
+  return this.hashTable = hashTable;
+};
+
+const getLinkedList = () => {
+  return getSources().getLinkedListSource[
+      getSelectedLinkedList()].getLinkedList();
+};
+
 const getElementById = (elementId) => document.getElementById(elementId);
 
 const setResultTitle = (titleText) => {
@@ -53,62 +103,12 @@ const showResultUsingButton = (arr = []) => {
 const setDefaultButtonConfig = (elementText) => {
   setResultTitle(elementText);
 
+  clearResult(getElementById('hashTableElement'));
   clearResult(getElementById('result'));
 };
 
 const passObjectWithoutReference = (object) => {
   return JSON.parse(JSON.stringify(object));
-};
-
-const setStack = (stack) => {
-  this.stack = stack;
-};
-
-const getStack = () => {
-  return this.stack;
-};
-
-const getQueue = () => {
-  return this.queue;
-};
-
-const setQueue = (queue) => {
-  this.queue = queue;
-};
-
-const getPotatoGameQueue = () => {
-  return this.potatoGameQueue;
-};
-
-const setPotatoGameQueue = (potatoGameQueue) => {
-  this.potatoGameQueue = potatoGameQueue;
-};
-
-const setLinkedList = (linkedList) => {
-  getSources().getLinkedListSource[
-      getSelectedLinkedList()].setLinkedList(linkedList);
-};
-
-const getSetElement = () => {
-  return this.setElement;
-};
-
-const setSetElement = (setElement) => {
-  return this.setElement = setElement;
-};
-
-const getHashTable = () => {
-  return this.hashTable;
-};
-
-const setHashTable = (hashTable) => {
-  return this.hashTable = hashTable;
-};
-
-
-const getLinkedList = () => {
-  return getSources().getLinkedListSource[
-      getSelectedLinkedList()].getLinkedList();
 };
 
 const isStackEmpty = () => {
@@ -149,7 +149,7 @@ const isLinkedListEmpty = () => {
   }
 };
 
-const hotPotatoGame = () => {
+const startHotPotatoGame = () => {
   const randomRounds = Math.floor(Math.random() * 100);
 
   showResult([`Number of rounds: ${randomRounds}`]);

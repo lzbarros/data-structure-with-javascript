@@ -231,7 +231,7 @@ btnShowHotPotatoPlayer.onclick = () => {
 btnStartHotPotatoGame.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
-  const winner = hotPotatoGame();
+  const winner = startHotPotatoGame();
 
   showResult([`The winner is ${winner}`], false);
 };
@@ -246,7 +246,10 @@ btnClearHotPotatoGame.onclick = () => {
 };
 
 btnShowLinkedList.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   if (!isLinkedListEmpty()) {
     const result = getLinkedList().toString();
@@ -258,7 +261,10 @@ btnShowLinkedList.onclick = () => {
 };
 
 btnSetLinkedList.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
 
@@ -288,7 +294,10 @@ btnSetLinkedList.onclick = () => {
 };
 
 btnSetLinkedListSpecPos.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   if (isLinkedListEmpty()) {
     return;
@@ -330,7 +339,10 @@ btnSetLinkedListSpecPos.onclick = () => {
 };
 
 btnRemoveLinkedListSpecPos.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   if (!isLinkedListEmpty()) {
     const length = getLinkedList().getLength();
@@ -347,7 +359,10 @@ btnRemoveLinkedListSpecPos.onclick = () => {
 };
 
 btnRemoveFirstLinkedList.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   if (!isLinkedListEmpty()) {
     showResult([`${getLinkedList().removeFirst().element} 
@@ -356,7 +371,10 @@ btnRemoveFirstLinkedList.onclick = () => {
 };
 
 btnRemoveLastLinkedList.onclick = () => {
-  setDefaultButtonConfig(this.document.activeElement.textContent);
+  const selectElement = document.getElementById('linkedListSelect');
+  const label = selectElement[selectElement.selectedIndex].label;
+  setDefaultButtonConfig(`${this.document.activeElement.textContent} 
+  - ${label}`);
 
   if (!isLinkedListEmpty()) {
     showResult([`${getLinkedList().removeLast().element} 
@@ -487,6 +505,7 @@ btnClearSecondSet.onclick = () => {
 
 btnSetHashTable.onclick = () => {
   clearResult(getElementById('hashTableElement'));
+  clearResult(getElementById('result'));
   setResultTitle(this.document.activeElement.textContent);
 
   loadJSFile(getSources().HASH_TABLE, () => {
@@ -497,6 +516,7 @@ btnSetHashTable.onclick = () => {
     }
 
     setHashTableElement();
+    showHashTableElements();
   });
 };
 
