@@ -24,6 +24,11 @@ const setPotatoGameQueue = (potatoGameQueue) => {
   this.potatoGameQueue = potatoGameQueue;
 };
 
+const getLinkedList = () => {
+  return getSources().getLinkedListSource[
+      getSelectedLinkedList()].getLinkedList();
+};
+
 const setLinkedList = (linkedList) => {
   getSources().getLinkedListSource[
       getSelectedLinkedList()].setLinkedList(linkedList);
@@ -45,9 +50,52 @@ const setHashTable = (hashTable) => {
   return this.hashTable = hashTable;
 };
 
-const getLinkedList = () => {
-  return getSources().getLinkedListSource[
-      getSelectedLinkedList()].getLinkedList();
+const getTree = () => {
+  return this.tree;
+};
+
+const setTree = (tree) => {
+  return this.tree = tree;
+};
+
+const getTreeInitialValues = () => {
+  return this.treeInitialValues;
+};
+
+const setTreeInitialValues = (treeInitialValues) => {
+  return this.treeInitialValues = treeInitialValues;
+};
+
+const getGraph = () => {
+  return this.graph;
+};
+
+const setGraph = (graph) => {
+  return this.graph = graph;
+};
+
+const getGraphInitialValues = () => {
+  return this.graphInitialValues;
+};
+
+const setGraphInitialValues = (graphInitialValues) => {
+  return this.graphInitialValues = graphInitialValues;
+};
+
+const getOrdering = () => {
+  return this.ordering;
+};
+
+const setOrdering = (ordering) => {
+  return this.ordering = ordering;
+};
+
+const getOrderingValues = () => {
+  return this.orderingValues;
+};
+
+const setOrderingValues = (orderingValues) => {
+  return this.orderingValues = orderingValues;
 };
 
 const getElementById = (elementId) => document.getElementById(elementId);
@@ -74,6 +122,26 @@ const showResult = (arr = []) => {
 
     ul.appendChild(li);
   }
+};
+
+const showTreeResult = (arr = [], orderType = '') => {
+  const resultElement = getElementById('result');
+  const title = document.createElement('h5');
+  title.innerHTML = orderType;
+  resultElement.appendChild(title);
+  const ul = document.createElement('ul');
+  ul.style.listStyleType = 'none';
+  resultElement.appendChild(ul);
+  for (let x = 0; x < arr.length; x++) {
+    const li = document.createElement('li');
+    li.style.float = 'left';
+    li.style.marginLeft = '2px';
+    li.style.color = orderType === 'Initial Value' ? 'blue' : 'green';
+    li.innerHTML = ` (${arr[x]}) `;
+
+    ul.appendChild(li);
+  }
+  ul.appendChild(document.createElement('br'));
 };
 
 const showResultUsingButton = (arr = []) => {
@@ -105,6 +173,8 @@ const setDefaultButtonConfig = (elementText) => {
 
   clearResult(getElementById('hashTableElement'));
   clearResult(getElementById('result'));
+  clearResult(getElementById('treeImage'));
+  clearResult(getElementById('graphImage'));
 };
 
 const passObjectWithoutReference = (object) => {
@@ -324,4 +394,22 @@ const searchHashTableElement = (key) => {
   } else {
     alert(`Key: ${key} not found!`);
   }
+};
+
+const setTreeImage = () => {
+  const div = getElementById('treeImage');
+
+  const img = new Image();
+  img.src = './../../img/tree.png';
+
+  div.appendChild(img);
+};
+
+const setGraphImage = (source) => {
+  const div = getElementById('graphImage');
+
+  const img = new Image();
+  img.src = source;
+
+  div.appendChild(img);
 };

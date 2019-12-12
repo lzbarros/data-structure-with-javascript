@@ -10,6 +10,9 @@ const getSources = () => {
     QUEUE: 'src/js/queue/queue.js',
     SET: 'src/js/set/set.js',
     HASH_TABLE: 'src/js/hash/hash-table.js',
+    BINARY_TREE: 'src/js/tree/binary-tree.js',
+    GRAPH: 'src/js/graph/graph.js',
+    ORDERING: 'src/js/ordering/ordering.js',
     getLinkedListSource: {
       LINKED_LIST: {
         source: 'src/js/linkedList/linked-list.js',

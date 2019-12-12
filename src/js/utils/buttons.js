@@ -1,31 +1,33 @@
 /* eslint-disable no-invalid-this */
-btnBiDimensional.onclick = () => {
+btnBiDimensional.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
-  loadJSFile(getSources().BI_DIMENSIONAL,
-      () => showResult(biDimensional()));
+  await loadJSFile(getSources().BI_DIMENSIONAL);
+
+  showResult(biDimensional());
 };
 
-btnTriDimensional.onclick = () => {
+btnTriDimensional.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
-  loadJSFile(getSources().TRI_DIMENSIONAL,
-      () => showResult(triDimensional()));
+  await loadJSFile(getSources().TRI_DIMENSIONAL);
+
+  showResult(triDimensional());
 };
 
-btnSetStack.onclick = () => {
+btnSetStack.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
-  loadJSFile(getSources().STACK, () => {
-    if (!getStack()) {
-      const stack = new Stack([Math.floor(Math.random() * 100)]);
-      setStack(stack);
-    } else {
-      getStack().push(Math.floor(Math.random() * 100));
-    }
+  await loadJSFile(getSources().STACK);
 
-    showResult(stack.getStack());
-  });
+  if (!getStack()) {
+    const stack = new Stack([Math.floor(Math.random() * 100)]);
+    setStack(stack);
+  } else {
+    getStack().push(Math.floor(Math.random() * 100));
+  }
+
+  showResult(stack.getStack());
 };
 
 btnPopStack.onclick = () => {
@@ -79,75 +81,75 @@ btnClearStack.onclick = () => {
   }
 };
 
-btnDecimalToBinary.onclick = () => {
+btnDecimalToBinary.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const decimalNumber = window.prompt('Enter decimal number: ', 0);
 
   if (decimalNumber > 0) {
-    loadJSFile(getSources().STACK_DECIMAL_TO_BINARY,
-        () => showResult([decimalToBinary(decimalNumber)]));
+    await loadJSFile(getSources().STACK_DECIMAL_TO_BINARY);
+    showResult([decimalToBinary(decimalNumber)]);
   }
 };
 
-btnBaseConverter.onclick = () => {
+btnBaseConverter.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const decimalNumber = window.prompt('Enter decimal number: ', 0);
   const baseNumber = window.prompt('Enter base number: ', 0);
 
   if (decimalNumber > 0 && baseNumber) {
-    loadJSFile(getSources().STACK_BASE_CONVERTER,
-        () => showResult([baseConverter(decimalNumber, baseNumber)]));
+    await loadJSFile(getSources().STACK_BASE_CONVERTER);
+    showResult([baseConverter(decimalNumber, baseNumber)]);
   }
 };
 
-btnPriorityEnqueue.onclick = () => {
+btnPriorityEnqueue.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser('Enter names separated by \',\' (comma) ', '');
   const priority = window.prompt('Enter priority', 0);
 
   if (users.length > 0) {
-    loadJSFile(getSources().QUEUE, () => {
-      let queue = {};
-      if (!getQueue()) {
-        queue = new Queue([]);
-        setQueue(queue);
-      } else {
-        queue = getQueue();
-      }
+    await loadJSFile(getSources().QUEUE);
 
-      for (let x = users.length -1; x >= 0; x--) {
-        queue.priorityEnqueue(users[x], priority);
-      }
+    let queue = {};
+    if (!getQueue()) {
+      queue = new Queue([]);
+      setQueue(queue);
+    } else {
+      queue = getQueue();
+    }
 
-      showResult(queue.getQueue());
-    });
+    for (let x = users.length -1; x >= 0; x--) {
+      queue.priorityEnqueue(users[x], priority);
+    }
+
+    showResult(queue.getQueue());
   }
 };
 
-btnEnqueue.onclick = () => {
+btnEnqueue.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser('Enter names separated by \',\' (comma) ', '');
 
   if (users.length > 0) {
-    loadJSFile(getSources().QUEUE, () => {
-      let queue = {};
-      if (!getQueue()) {
-        queue = new Queue([]);
-        setQueue(queue);
-      } else {
-        queue = getQueue();
-      }
+    await loadJSFile(getSources().QUEUE);
 
-      for (let x = 0; x < users.length; x++) {
-        queue.enqueue(users[x]);
-      }
+    let queue = {};
+    if (!getQueue()) {
+      queue = new Queue([]);
+      setQueue(queue);
+    } else {
+      queue = getQueue();
+    }
 
-      showResult(queue.getQueue());
-    });
+    for (let x = 0; x < users.length; x++) {
+      queue.enqueue(users[x]);
+    }
+
+    showResult(queue.getQueue());
   }
 };
 
@@ -196,27 +198,27 @@ btnClearQueue.onclick = () => {
   }
 };
 
-btnSetHotPotatoPlayer.onclick = () => {
+btnSetHotPotatoPlayer.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
 
   if (users.length > 0) {
-    loadJSFile(getSources().QUEUE, () => {
-      let potatoGameQueue;
-      if (!getPotatoGameQueue()) {
-        potatoGameQueue = new Queue([]);
-        setPotatoGameQueue(potatoGameQueue);
-      } else {
-        potatoGameQueue = getPotatoGameQueue();
-      }
+    await loadJSFile(getSources().QUEUE);
 
-      for (let x = 0; x < users.length; x++) {
-        potatoGameQueue.enqueue(users[x]);
-      }
+    let potatoGameQueue;
+    if (!getPotatoGameQueue()) {
+      potatoGameQueue = new Queue([]);
+      setPotatoGameQueue(potatoGameQueue);
+    } else {
+      potatoGameQueue = getPotatoGameQueue();
+    }
 
-      showResult(potatoGameQueue.getQueue());
-    });
+    for (let x = 0; x < users.length; x++) {
+      potatoGameQueue.enqueue(users[x]);
+    }
+
+    showResult(potatoGameQueue.getQueue());
   }
 };
 
@@ -260,7 +262,7 @@ btnShowLinkedList.onclick = () => {
   }
 };
 
-btnSetLinkedList.onclick = () => {
+btnSetLinkedList.onclick = async () => {
   const selectElement = document.getElementById('linkedListSelect');
   const label = selectElement[selectElement.selectedIndex].label;
   setDefaultButtonConfig(`${this.document.activeElement.textContent} 
@@ -271,29 +273,29 @@ btnSetLinkedList.onclick = () => {
   if (users.length > 0) {
     const linkedListSource = getSources().getLinkedListSource[
         getSelectedLinkedList()];
-    loadJSFile(linkedListSource.source, () => {
-      let linkedlist = {};
-      if (!getLinkedList()) {
-        linkedlist = linkedListSource.getInstance();
-        setLinkedList(linkedlist);
-      } else {
-        linkedlist = getLinkedList();
-      }
 
-      for (let x = 0; x < users.length; x++) {
-        linkedlist.append(users[x].replace(/ /g, ''));
-      }
+    await loadJSFile(linkedListSource.source);
 
-      const result = linkedlist.toString();
+    let linkedlist = {};
+    if (!getLinkedList()) {
+      linkedlist = linkedListSource.getInstance();
+      setLinkedList(linkedlist);
+    } else {
+      linkedlist = getLinkedList();
+    }
 
-      const resultArr = result ? result.split(',') : result;
+    for (let x = 0; x < users.length; x++) {
+      linkedlist.append(users[x].replace(/ /g, ''));
+    }
 
-      showResultUsingButton(resultArr);
-    });
+    const result = linkedlist.toString();
+    const resultArr = result ? result.split(',') : result;
+
+    showResultUsingButton(resultArr);
   }
 };
 
-btnSetLinkedListSpecPos.onclick = () => {
+btnSetLinkedListSpecPos.onclick = async () => {
   const selectElement = document.getElementById('linkedListSelect');
   const label = selectElement[selectElement.selectedIndex].label;
   setDefaultButtonConfig(`${this.document.activeElement.textContent} 
@@ -316,25 +318,25 @@ btnSetLinkedListSpecPos.onclick = () => {
   if (users.length > 0) {
     const linkedListSource = getSources().getLinkedListSource[
         getSelectedLinkedList()];
-    loadJSFile(linkedListSource.source, () => {
-      let linkedlist = {};
-      if (!getLinkedList()) {
-        linkedlist = linkedListSource.getInstance();
-        setLinkedList(linkedlist);
-      } else {
-        linkedlist = getLinkedList();
-      }
 
-      for (let x = users.length -1; x >= 0; x--) {
-        linkedlist.insert(users[x].replace(/ /g, ''), position - 1);
-      }
+    await loadJSFile(linkedListSource.source);
 
-      const result = linkedlist.toString();
+    let linkedlist = {};
+    if (!getLinkedList()) {
+      linkedlist = linkedListSource.getInstance();
+      setLinkedList(linkedlist);
+    } else {
+      linkedlist = getLinkedList();
+    }
 
-      const resultArr = result ? result.split(',') : result;
+    for (let x = users.length -1; x >= 0; x--) {
+      linkedlist.insert(users[x].replace(/ /g, ''), position - 1);
+    }
 
-      showResultUsingButton(resultArr);
-    });
+    const result = linkedlist.toString();
+    const resultArr = result ? result.split(',') : result;
+
+    showResultUsingButton(resultArr);
   };
 };
 
@@ -382,50 +384,50 @@ btnRemoveLastLinkedList.onclick = () => {
   }
 };
 
-btnFillFirstSet.onclick = () => {
+btnFillFirstSet.onclick = async () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
 
-  loadJSFile(getSources().SET, () => {
-    let setElement = getSetElement();
+  await loadJSFile(getSources().SET);
 
-    if (!setElement) {
-      setElement = {firstSet: {}, secondSet: {}};
-    }
+  let setElement = getSetElement();
 
-    for (u of users) {
-      const user = u.replace(/ /g, '');
-      setElement.firstSet[user] = user;
-    }
+  if (!setElement) {
+    setElement = {firstSet: {}, secondSet: {}};
+  }
 
-    setSetElement(setElement);
+  for (u of users) {
+    const user = u.replace(/ /g, '');
+    setElement.firstSet[user] = user;
+  }
 
-    showResult(Object.keys(setElement.firstSet));
-  });
+  setSetElement(setElement);
+
+  showResult(Object.keys(setElement.firstSet));
 };
 
-btnFillSecondSet.onclick = () => {
+btnFillSecondSet.onclick = async () => {
   setResultTitle(this.document.activeElement.textContent);
 
   const users = getInputFromUser(`Enter names separated by ',' (comma)`, '');
 
-  loadJSFile(getSources().SET, () => {
-    let setElement = getSetElement();
+  await loadJSFile(getSources().SET);
 
-    if (!setElement) {
-      setElement = {firstSet: {}, secondSet: {}};
-    }
+  let setElement = getSetElement();
 
-    for (u of users) {
-      const user = u.replace(/ /g, '');
-      setElement.secondSet[user] = user;
-    }
+  if (!setElement) {
+    setElement = {firstSet: {}, secondSet: {}};
+  }
 
-    setSetElement(setElement);
+  for (u of users) {
+    const user = u.replace(/ /g, '');
+    setElement.secondSet[user] = user;
+  }
 
-    showResult(Object.keys(setElement.secondSet));
-  });
+  setSetElement(setElement);
+
+  showResult(Object.keys(setElement.secondSet));
 };
 
 btnShowSets.onclick = () => {
@@ -503,21 +505,21 @@ btnClearSecondSet.onclick = () => {
   alert(`Second set has been cleared!`);
 };
 
-btnSetHashTable.onclick = () => {
+btnSetHashTable.onclick = async () => {
   clearResult(getElementById('hashTableElement'));
   clearResult(getElementById('result'));
+  clearResult(getElementById('treeImage'));
   setResultTitle(this.document.activeElement.textContent);
 
-  loadJSFile(getSources().HASH_TABLE, () => {
-    loadJSFile(getSources().getLinkedListSource['LINKED_LIST'].source);
+  await loadJSFile(getSources().HASH_TABLE);
+  await loadJSFile(getSources().getLinkedListSource['LINKED_LIST'].source);
 
-    if (!getHashTable()) {
-      setHashTable(new HashTable());
-    }
+  if (!getHashTable()) {
+    setHashTable(new HashTable());
+  }
 
-    setHashTableElement();
-    showHashTableElements();
-  });
+  setHashTableElement();
+  showHashTableElements();
 };
 
 btnRemoveHashTable.onclick = () => {
@@ -533,7 +535,6 @@ btnRemoveHashTable.onclick = () => {
 
 btnShowHashTable.onclick = () => {
   setDefaultButtonConfig(this.document.activeElement.textContent);
-  clearResult(getElementById('hashTableElement'));
 
   if (getHashTable() && getHashTable().size() > 0) {
     showHashTableElements();
@@ -543,7 +544,6 @@ btnShowHashTable.onclick = () => {
 };
 
 btnClearHashTable.onclick = () => {
-  clearResult(getElementById('hashTableElement'));
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (getHashTable()) {
@@ -554,7 +554,6 @@ btnClearHashTable.onclick = () => {
 };
 
 btnGetHashTable.onclick = () => {
-  clearResult(getElementById('hashTableElement'));
   setDefaultButtonConfig(this.document.activeElement.textContent);
 
   if (getHashTable()) {
@@ -562,4 +561,212 @@ btnGetHashTable.onclick = () => {
   } else {
     alert(`HashTable is empty. Please set elements`);
   }
+};
+
+btnSetTree.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  await loadJSFile(getSources().BINARY_TREE);
+
+  if (!getTree()) {
+    const tree = new BinaryTree();
+    const values = [11, 7, 15, 5, 3, 9, 8, 10, 13, 12, 14, 20, 18, 25, 6];
+    for (const v of values) {
+      tree.insert(v);
+    }
+    setTreeInitialValues(values);
+    setTree(tree);
+  }
+  showTreeResult(getTreeInitialValues(), 'Initial Value');
+  setTreeImage();
+};
+
+btnInOrderTree.onclick = () => {
+  setResultTitle('List tree');
+  if (getTree()) {
+    const list = [];
+    getTree().inOrder(getTree().getRoot(),
+        (message) => list.push(message));
+    showTreeResult(list, this.document.activeElement.textContent);
+  } else {
+    alert(`Tree is empty. Please set tree`);
+  }
+};
+
+btnPreOrderTree.onclick = () => {
+  setResultTitle('List tree');
+  if (getTree()) {
+    const list = [];
+    getTree().preOrder(getTree().getRoot(),
+        (message) => list.push(message));
+    showTreeResult(list, this.document.activeElement.textContent);
+  } else {
+    alert(`Tree is empty. Please set tree`);
+  }
+};
+
+btnPostOrderTree.onclick = () => {
+  setResultTitle('List tree');
+  if (getTree()) {
+    const list = [];
+    getTree().postOrder(getTree().getRoot(),
+        (message) => list.push(message));
+    showTreeResult(list, this.document.activeElement.textContent);
+  } else {
+    alert(`Tree is empty. Please set tree!`);
+  }
+};
+
+btnClearTree.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+  setTree(null);
+  alert(`Tree has been cleared!`);
+};
+
+btnShowGraph.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  await loadJSFile(getSources().GRAPH);
+
+  if (!getGraph()) {
+    const graph = new Graph();
+    const vertexList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+
+    for (const v of vertexList) {
+      graph.addVertex(v);
+    }
+
+    graph.addEdge('A', 'B');
+    graph.addEdge('A', 'C');
+    graph.addEdge('A', 'D');
+    graph.addEdge('B', 'E');
+    graph.addEdge('B', 'F');
+    graph.addEdge('C', 'D');
+    graph.addEdge('C', 'G');
+    graph.addEdge('D', 'G');
+    graph.addEdge('D', 'H');
+    graph.addEdge('E', 'I');
+    setGraphInitialValues(vertexList);
+    setGraph(graph);
+  }
+  showTreeResult(getGraphInitialValues(), '');
+  setGraphImage('./../../img/graph.png');
+};
+
+btnGraphBFS.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+  if (getGraph()) {
+    const list = [];
+    getGraph().breadthFirstSearch(getGraphInitialValues()[0],
+        (vertex) => list.push(vertex));
+    showTreeResult(list);
+    setGraphImage('./../../img/graph-bfs.png');
+  } else {
+    alert(`Graph is empty. Please set graph!`);
+  }
+};
+
+btnGraphDFS.onclick = () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+  if (getGraph()) {
+    const list = [];
+    getGraph().depthFirstSearch(getGraphInitialValues()[0],
+        (vertex) => list.push(vertex));
+    showTreeResult(list);
+    setGraphImage('./../../img/graph-dfs.png');
+  } else {
+    alert(`Graph is empty. Please set graph!`);
+  }
+};
+
+btnSetAleatoryOrderingNumber.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  await loadJSFile(getSources().ORDERING);
+
+  if (!getOrdering()) {
+    const ordering = new Ordering();
+    setOrdering(ordering);
+    setOrderingValues([Math.floor(Math.random() * 100)]);
+  } else {
+    getOrderingValues().push(Math.floor(Math.random() * 100));
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnSetAleatoryOrderingNumber.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  await loadJSFile(getSources().ORDERING);
+
+  if (!getOrdering()) {
+    const ordering = new Ordering();
+    setOrdering(ordering);
+    setOrderingValues([Math.floor(Math.random() * 100)]);
+  } else {
+    getOrderingValues().push(Math.floor(Math.random() * 100));
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnBubbleSort.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  if (getOrdering()) {
+    getOrdering().bubbleSort(getOrderingValues());
+  } else {
+    alert(`Ordering is empty. Please set ordering!`);
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnSelectionSort.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  if (getOrdering()) {
+    getOrdering().selectionSort(getOrderingValues());
+  } else {
+    alert(`Ordering is empty. Please set ordering!`);
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnInsertionSort.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  if (getOrdering()) {
+    getOrdering().insertionSort(getOrderingValues());
+  } else {
+    alert(`Ordering is empty. Please set ordering!`);
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnMergeSort.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  if (getOrdering()) {
+    setOrderingValues(getOrdering().mergeSort(getOrderingValues()));
+  } else {
+    alert(`Ordering is empty. Please set ordering!`);
+  }
+
+  showResult(getOrderingValues());
+};
+
+btnQuickSort.onclick = async () => {
+  setDefaultButtonConfig(this.document.activeElement.textContent);
+
+  if (getOrdering()) {
+    getOrdering().quickSort(getOrderingValues());
+  } else {
+    alert(`Ordering is empty. Please set ordering!`);
+  }
+
+  showResult(getOrderingValues());
 };
