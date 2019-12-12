@@ -13,24 +13,23 @@ class Graph {
 
   /**
    * @function addVertex
-   * @param {type} v
-   * @param {type} w
+   * @param {type} vertex
    */
-  addVertex(v) {
-    this.vertexList.push(v);
-    this.adjacencyList[v] = [];
+  addVertex(vertex) {
+    this.vertexList.push(vertex);
+    this.adjacencyList[vertex] = [];
   }
 
   /**
    * @function addEdge
-   * @param {type} vertice
+   * @param {type} vertex
    * @param {type} edge
   */
-  addEdge(vertice, edge) {
-    if (this.adjacencyList.hasOwnProperty(vertice)) {
-      this.adjacencyList[vertice].push(edge);
+  addEdge(vertex, edge) {
+    if (this.adjacencyList.hasOwnProperty(vertex)) {
+      this.adjacencyList[vertex].push(edge);
       if (this.adjacencyList.hasOwnProperty(edge)) {
-        this.adjacencyList[edge].push(vertice);
+        this.adjacencyList[edge].push(vertex);
       }
     }
   }
